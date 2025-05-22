@@ -1,3 +1,3 @@
-from . import quicksort
+from .quicksort import quicksort
 
 __all__ = ['quicksort']
