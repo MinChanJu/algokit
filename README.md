@@ -5,7 +5,7 @@ Python 라이브러리 for 그래프 & 정렬 알고리즘.
 ## 사용법
 
 ```bash
-pip install git+https://github.com/너의아이디/algokit.git
+pip install git+https://github.com/MinChanJu/algokit.git
 ```
 
 ```python

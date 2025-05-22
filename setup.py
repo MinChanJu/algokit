@@ -4,8 +4,8 @@ setup(
     name='algokit',
     version='0.1',
     packages=find_packages(),
-    description='Graph and sorting algorithms in Python',
+    description='Various Algorithms in Python',
     author='MinChanJu',
-    author_email='you@example.com',
+    author_email='mcj00220077@gmail.com',
     python_requires='>=3.6',
 )
