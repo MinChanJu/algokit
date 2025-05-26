@@ -11,7 +11,7 @@ def resolve_func_module(func_path: str):
     'graph.dijkstra' -> ('algokit.graph', 'dijkstra')
     """
     parts = func_path.split('.')
-    module_path = '.'.join(['algokit'] + parts[:-1])
+    module_path = '.'.join(parts[:-1])
     func_name = parts[-1]
     return module_path, func_name
 
