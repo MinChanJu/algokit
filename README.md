@@ -1,6 +1,6 @@
 # algokit
 
-Python 라이브러리 for 그래프 & 정렬 알고리즘.
+Python 라이브러리 for 다양한 알고리즘.
 
 ## 사용법
 
