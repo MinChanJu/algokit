@@ -3,34 +3,47 @@ import ast
 
 class AliasTracker(ast.NodeVisitor):
     def __init__(self):
-        self.aliases = {}  # {'ak': 'algokit'}
+        self.aliases = {}  # 예: {'ak': 'algokit'}
 
     def visit_Import(self, node):
         for alias in node.names:
             if alias.asname:
                 self.aliases[alias.asname] = alias.name
+            else:
+                self.aliases[alias.name] = alias.name  # import algokit 형태도 처리
 
     def visit_ImportFrom(self, node):
-        pass  # 생략 가능
+        pass  # 현재는 사용 안함
 
 class AlgokitUsageFinder(ast.NodeVisitor):
     def __init__(self, aliases):
         self.aliases = aliases
         self.used_symbols = set()
 
+    def get_full_attribute_path(self, node):
+        names = []
+        while isinstance(node, ast.Attribute):
+            names.append(node.attr)
+            node = node.value
+        if isinstance(node, ast.Name):
+            base = self.aliases.get(node.id, node.id)
+            names.append(base)
+            names.reverse()
+            return ".".join(names)
+        return None
+
+    def visit_Call(self, node):
+        # 클래스 생성자 호출도 포함
+        path = self.get_full_attribute_path(node.func)
+        if path and path.startswith("algokit."):
+            self.used_symbols.add(path)
+        self.generic_visit(node)
+
     def visit_Attribute(self, node):
-        # 예: ak.graph.WeightedDirectedGraph
-        full_attr = []
-        curr = node
-        while isinstance(curr, ast.Attribute):
-            full_attr.append(curr.attr)
-            curr = curr.value
-        if isinstance(curr, ast.Name) and curr.id in self.aliases:
-            full_attr.append(self.aliases[curr.id])
-            full_attr.reverse()
-            dotted_path = ".".join(full_attr)
-            if dotted_path.startswith("algokit."):
-                self.used_symbols.add(dotted_path)
+        # 객체.method → 해당 객체가 algokit에서 왔는지 모를 수 있음
+        path = self.get_full_attribute_path(node)
+        if path and path.startswith("algokit."):
+            self.used_symbols.add(path)
         self.generic_visit(node)
 
 def analyze_used_symbols(filepath):
