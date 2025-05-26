@@ -1,4 +1,4 @@
-from .analyzer import find_algokit_calls
+from .analyzer import analyze_used_symbols
 from .exporter import exporter
 
-__all__ = ['find_algokit_calls', 'exporter']
+__all__ = ['analyze_used_symbols', 'exporter']

@@ -1,7 +1,7 @@
 import inspect
 import importlib
 from typing import List
-from .analyzer import find_algokit_calls
+from .analyzer import analyze_used_symbols
 
 def extract_function_source(func):
     return inspect.getsource(func)
@@ -47,5 +47,5 @@ def export_used_functions(dest_file: str, used_funcs: List[str], output_path: st
     print(f"✅ '{output_path}' 파일로 제출 코드가 생성되었습니다.")
     
 def exporter(main_file: str, output_file: str):
-  used_funcs = find_algokit_calls(main_file)
+  used_funcs = analyze_used_symbols(main_file)
   export_used_functions(dest_file=main_file, used_funcs=used_funcs, output_path=output_file)
