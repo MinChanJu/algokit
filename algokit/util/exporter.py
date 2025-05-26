@@ -1,7 +1,7 @@
 import inspect
 import importlib
 from typing import List
-from analyzer import find_algokit_calls
+from .analyzer import find_algokit_calls
 
 def extract_function_source(func):
     return inspect.getsource(func)
